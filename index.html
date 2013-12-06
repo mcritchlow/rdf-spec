@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Rdf-spec : RDF.rb plugin that provides RSpec matchers and shared examples for RDF objects." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Rdf-spec</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ruby-rdf/rdf-spec">View on GitHub</a>
+
+          <h1 id="project_title">Rdf-spec</h1>
+          <h2 id="project_tagline">RDF.rb plugin that provides RSpec matchers and shared examples for RDF objects.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ruby-rdf/rdf-spec/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ruby-rdf/rdf-spec/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="rspec-extensions-for-rdfrb" class="anchor" href="#rspec-extensions-for-rdfrb"><span class="octicon octicon-link"></span></a>RSpec Extensions for RDF.rb</h1>
+
+<p>This is an <a href="http://rubygems.org/gems/rdf">RDF.rb</a> plugin that provides RDF-specific <a href="http://rspec.info/">RSpec</a> matchers
+and shared examples for Ruby projects that use RDF.rb and RSpec.</p>
+
+<ul>
+<li><a href="http://github.com/ruby-rdf/rdf-spec">http://github.com/ruby-rdf/rdf-spec</a></li>
+</ul><p><a href="http://badge.fury.io/rb/rdf-spec"><img src="https://badge.fury.io/rb/rdf-spec.png" alt="Gem Version"></a></p>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<ul>
+<li>{RDF::Spec}
+
+<ul>
+<li>{RDF::Spec::Matchers}</li>
+</ul>
+</li>
+</ul><p>Shared specs are implemented in modules which typically require that an instance be defined in a class variable in a <code>before(:each)</code> block. For example, an class implementing <code>RDF::Countable</code> could test this behavior by defining <code>@countable</code> as an instance variable and including <code>RDF_Countable</code> as follows:</p>
+
+<pre><code>describe RDF::Enumerable do
+  before :each do
+    # The available reference implementations are `RDF::Repository` and
+    # `RDF::Graph`, but a plain Ruby array will do fine as well:
+    @enumerable = RDF::Spec.quads.dup.extend(RDF::Enumerable)
+  end
+
+  # @see lib/rdf/spec/enumerable.rb in rdf-spec
+  include RDF_Enumerable
+end
+</code></pre>
+
+<p>Note that in most cases, if the instance is empty and mutable, the appropriate statements will be added. When testing a non-mutable instance, the data must be pre-loaded.</p>
+
+<h2>
+<a name="dependencies" class="anchor" href="#dependencies"><span class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<ul>
+<li>
+<a href="http://rubygems.org/gems/rdf">RDF.rb</a> (&gt;= 0.3.1)</li>
+<li>
+<a href="http://rubygems.org/gems/rspec">RSpec</a> (&gt;= 2.1.0)</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>The recommended installation method is via <a href="http://rubygems.org/">RubyGems</a>.
+To install the latest official release of the <code>RDF::Spec</code> gem, do:</p>
+
+<pre><code>% [sudo] gem install rdf-spec
+</code></pre>
+
+<h2>
+<a name="download" class="anchor" href="#download"><span class="octicon octicon-link"></span></a>Download</h2>
+
+<p>To get a local working copy of the development repository, do:</p>
+
+<pre><code>% git clone git://github.com/ruby-rdf/rdf-spec.git
+</code></pre>
+
+<p>Alternatively, download the latest development version as a tarball as
+follows:</p>
+
+<pre><code>% wget http://github.com/ruby-rdf/rdf-spec/tarball/master
+</code></pre>
+
+<h2>
+<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h2>
+
+<ul>
+<li>
+<a href="http://github.com/bendiken">Arto Bendiken</a> - <a href="http://ar.to/">http://ar.to/</a>
+</li>
+<li>
+<a href="http://github.com/bhuga">Ben Lavender</a> - <a href="http://bhuga.net/">http://bhuga.net/</a>
+</li>
+<li>
+<a href="http://github.com/gkellogg">Gregg Kellogg</a> - <a href="http://greggkellogg.net/">http://greggkellogg.net/</a>
+</li>
+</ul><h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<ul>
+<li>
+<a href="http://github.com/jfieber">John Fieber</a> - <a href="http://github.com/jfieber">http://github.com/jfieber</a>
+</li>
+</ul><h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ul>
+<li>Do your best to adhere to the existing coding conventions and idioms.</li>
+<li>Don't use hard tabs, and don't leave trailing whitespace on any line.</li>
+<li>Do refer to the <a href="http://rubyspec.org/wiki/rubyspec/Style_Guide">RubySpec Style Guide</a> for best practices.</li>
+<li>Don't touch the <code>.gemspec</code> or <code>VERSION</code> files. If you need to change them,
+do so on your private branch only.</li>
+<li>Do feel free to add yourself to the <code>CONTRIBUTORS</code> file and the
+corresponding list in the the <code>README</code>. Alphabetical order applies.</li>
+<li>Don't touch the <code>AUTHORS</code> file. If your contributions are significant
+enough, be assured we will eventually add you in there.</li>
+<li>Do note that in order for us to merge any non-trivial changes (as a rule
+of thumb, additions larger than about 15 lines of code), we need an
+explicit <a href="http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html">public domain dedication</a> on record from you.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This is free and unencumbered public domain software. For more information,
+see <a href="http://unlicense.org/">http://unlicense.org/</a> or the accompanying {file:UNLICENSE} file.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Rdf-spec maintained by <a href="https://github.com/ruby-rdf">ruby-rdf</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
