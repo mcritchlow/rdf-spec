@@ -10,6 +10,7 @@ RSpec.shared_examples 'an RDF::Mutable' do
 
     @statements = RDF::Spec.triples
     @supports_named_graphs = mutable.respond_to?(:supports?) && mutable.supports?(:graph_name)
+    @supports_literal_equality = mutable.respond_to?(:supports?) && mutable.supports?(:literal_equality)
   end
 
   let(:resource) { RDF::URI('http://rubygems.org/gems/rdf') }
@@ -151,6 +152,40 @@ RSpec.shared_examples 'an RDF::Mutable' do
           subject.insert([RDF::Node.new('blah'), RDF::URI('p'), 'o'])
           expect { subject.delete([RDF::Node.new('blah'), RDF::URI('p'), 'o']) }
             .to change { subject.count }.by(-1)
+        end
+      end
+
+      it 'does not delete literal with different language' do
+        if subject.mutable?
+          en = RDF::Literal('abc', language: 'en')
+          fi = RDF::Literal('abc', language: 'fi')
+
+          subject.insert([RDF::URI('s'), RDF::URI('p'), en])
+          expect { subject.delete([RDF::Node.new('blah'), RDF::URI('p'), fi]) }
+            .not_to change { subject.count }
+        end
+      end
+
+      it 'does not delete literal with different language case' do
+        if subject.mutable? && @supports_literal_equality
+          upper = RDF::Literal('abc', language: 'en-US')
+          lower= RDF::Literal('abc', language: 'en-us')
+
+          subject.insert([RDF::URI('s'), RDF::URI('p'), upper])
+          expect { subject.delete([RDF::Node.new('blah'), RDF::URI('p'), lower]) }
+            .not_to change { subject.count }
+        end
+      end
+
+      it 'does not delete literal with different datatype' do
+        if subject.mutable? && @supports_literal_equality
+          float = RDF::Literal::Float.new(1.0)
+          double = RDF::Literal::Double.new(1.0)
+
+          subject.insert([RDF::URI('s'), RDF::URI('p'), float])
+          
+          expect { subject.delete([RDF::Node.new('blah'), RDF::URI('p'), double]) }
+            .not_to change { subject.count }
         end
       end
 
