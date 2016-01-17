@@ -105,6 +105,17 @@ RSpec.shared_examples 'an RDF::Writable' do
       end
     end
 
+    it "should not insert a statement with duplicate node" do
+      if subject.writable?
+        statement.subject = RDF::Node.new('blah')
+        subject.insert(statement)
+
+        statement.subject = RDF::Node.new('blah')
+        subject.insert(statement)
+        expect(subject.count).to eq 1
+      end
+    end
+
     it "should not insert an incomplete statement" do
       if subject.writable?
         expect {subject.insert(RDF::Statement.from(statement.to_hash.merge(subject: nil)))}.to raise_error(ArgumentError)

@@ -145,7 +145,15 @@ RSpec.shared_examples 'an RDF::Mutable' do
           expect(subject.count).to eq count - (@supports_named_graphs ? 3 : 1)
         end
       end
-      
+
+      it 'deletes blank nodes' do
+        if subject.mutable?
+          subject.insert([RDF::Node.new('blah'), RDF::URI('p'), 'o'])
+          expect { subject.delete([RDF::Node.new('blah'), RDF::URI('p'), 'o']) }
+            .to change { subject.count }.by(-1)
+        end
+      end
+
       describe '#delete_insert' do
         let(:statement) do
           RDF::Statement.new(resource, 
